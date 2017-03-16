@@ -35,7 +35,7 @@ object Obscurity extends App {
           if (char == '-')
             ' '
           else (((char.toInt - offset + id) % 26) + offset).toChar).mkString
-        println(s"($id): $rotated")
+        if (rotated contains "north") println(s"($id): $rotated")
     }
   }
 
