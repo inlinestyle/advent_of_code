@@ -27,8 +27,16 @@ object Obscurity extends App {
     }
   }
 
-  def solvePartB(triangleLines: Seq[String]): Integer = {
-    0
+  def solvePartB(lines: Seq[String]): Integer = {
+    val offset = 'a'.toInt
+    filterLines(lines).foldLeft(0) {
+      case (acc, (name, id, _)) =>
+        println(name.map(char =>
+          if (char == '-')
+            ' '
+          else (((char.toInt - offset + id) % 26) + offset).toChar).mkString)
+        acc
+    }
   }
 
   def solvePartA(lines: Seq[String]): Integer = {
