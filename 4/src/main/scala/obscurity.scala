@@ -27,15 +27,15 @@ object Obscurity extends App {
     }
   }
 
-  def solvePartB(lines: Seq[String]): Integer = {
+  def solvePartB(lines: Seq[String]) = {
     val offset = 'a'.toInt
-    filterLines(lines).foldLeft(0) {
-      case (acc, (name, id, _)) =>
-        println(name.map(char =>
+    filterLines(lines).foreach {
+      case ((name, id, _)) =>
+        val rotated = name.map(char =>
           if (char == '-')
             ' '
-          else (((char.toInt - offset + id) % 26) + offset).toChar).mkString)
-        acc
+          else (((char.toInt - offset + id) % 26) + offset).toChar).mkString
+        println(s"($id): $rotated")
     }
   }
 
@@ -51,7 +51,7 @@ object Obscurity extends App {
     println("Part A:")
     println(solvePartA(lines))
     println("Part B:")
-    println(solvePartB(lines))
+    solvePartB(lines)
   } catch {
     case exception: Exception => println(exception)
   }
