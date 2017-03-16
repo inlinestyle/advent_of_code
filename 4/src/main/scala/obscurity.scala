@@ -1,17 +1,15 @@
 import scala.io.Source
 
 object Obscurity extends App {
+  type ParsedLine = (String, Integer, String)
+
   val filename = "input.txt"
   // parsing "aaaaa-bbb-z-y-x-123[abxyz]", where the first part has an
   // arbitrary number of hyphenated sections
   val parser = "([\\w-]+)-(\\d+)\\[(\\w{5})\\]".r
 
-  def solvePartB(triangleLines: Seq[String]): Integer = {
-    0
-  }
-
-  def solvePartA(lines: Seq[String]): Integer = {
-    lines.foldLeft(0) {
+  def filterLines(lines: Seq[String]): Seq[ParsedLine] = {
+    lines.foldLeft(Seq[ParsedLine]()) {
       case (acc, parser(name, id, checksum)) =>
         val test = name
           .split('-')
@@ -23,7 +21,20 @@ object Obscurity extends App {
           .map(_._1)
           .take(5)
           .mkString
-        if (test == checksum) acc + id.toInt else acc
+        if (test == checksum)
+          acc :+ ((name, id.toInt, checksum): ParsedLine)
+        else acc
+    }
+  }
+
+  def solvePartB(triangleLines: Seq[String]): Integer = {
+    0
+  }
+
+  def solvePartA(lines: Seq[String]): Integer = {
+    filterLines(lines).foldLeft(0) {
+      case (acc, (_, id, _)) =>
+        acc + id
     }
   }
 
