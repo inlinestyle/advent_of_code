@@ -13,15 +13,17 @@ object Obscurity extends App {
   def solvePartA(lines: Seq[String]): Integer = {
     lines.foldLeft(0) {
       case (acc, parser(name, id, checksum)) =>
-        println(name
+        val test = name
           .split('-')
           .flatten
-          .groupBy(_.toChar)
+          .groupBy(_.toChar) // not sure why .groupBy(_) doesn't compile
           .toList
           .map(group => (group._1, group._2.length))
-          .sortWith((a, b) => if (a._2 == b._2) a._1 < b._1 else a._2 > b._2))
-        println(s"$name : $id : $checksum")
-        acc
+          .sortWith((a, b) => if (a._2 == b._2) a._1 < b._1 else a._2 > b._2)
+          .map(_._1)
+          .take(5)
+          .mkString
+        if (test == checksum) acc + id.toInt else acc
     }
   }
 
