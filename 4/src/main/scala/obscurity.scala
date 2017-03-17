@@ -14,10 +14,10 @@ object Obscurity extends App {
         val test = name
           .split('-')
           .flatten
-          .groupBy(_.toChar) // not sure why .groupBy(_) doesn't compile
+          .groupBy(identity)
           .toList
           .map(group => (group._1, group._2.length))
-          .sortWith((a, b) => if (a._2 == b._2) a._1 < b._1 else a._2 > b._2)
+          .sortBy(group => (-group._2, group._1))
           .map(_._1)
           .take(5)
           .mkString
@@ -35,7 +35,8 @@ object Obscurity extends App {
           if (char == '-')
             ' '
           else (((char.toInt - offset + id) % 26) + offset).toChar).mkString
-        if (rotated contains "north") println(s"($id): $rotated")
+        if (rotated contains "north")
+          println(s"($id): $rotated")
     }
   }
 
