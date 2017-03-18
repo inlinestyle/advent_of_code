@@ -20,11 +20,11 @@ object Hacking extends App {
     fiveZeroesIterator(id)
       .scanLeft(emptyPassword) { (password, hash) =>
         val index = hash(0).asDigit
-        if (index < 8 && password(index) == None)
+        if (index < 8 && password(index).isEmpty)
           password.updated(index, Some(hash(1)))
         else password
       }
-      .dropWhile {password => !password.forall(_ != None)}
+      .dropWhile {_.contains(None)}
       .take(1)
       .flatten
       .flatten
