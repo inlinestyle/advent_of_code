@@ -3,17 +3,21 @@ import scala.io.Source
 object Protocol extends App {
   val filename = "input.txt"
 
-  val goodPattern = ".*(\\w)(?!\\1)(\\w)\\2\\1.*".r
-  val badPattern = "\\[[^\\]]*(\\w)(\\w)\\2\\1[^\\]]*\\]".r
+  val partAGoodPattern =        ".*(\\w)(?!\\1)(\\w)\\2\\1.*".r
+  val partABadPattern = "\\[[^\\]]*(\\w)(?!\\1)(\\w)\\2\\1[^\\]]*\\]".r
 
+  val partBPattern1 =                              ".*(\\w)(?!\\1)(\\w)\\1.*\\[[^\\]]*\\2\\1\\2[^\\]]*\\].*".r
+  val partBPattern2 = "\\[[^\\]]*\\2\\1\\2[^\\]]*\\].*(\\w)(?!\\1)(\\w)\\1.*".r
   def solvePartB(lines: Seq[String]): String = {
-    ""
+    lines.count { line =>
+      partBPattern1.findAllIn(line).nonEmpty || partBPattern2.findAllIn(line).nonEmpty
+    }.toString
   }
 
   def solvePartA(lines: Seq[String]): String = {
-    lines.filter { line =>
-      goodPattern.findAllIn(line).length > 0 && badPattern.findAllIn(line).length == 0
-    }.length.toString
+    lines.count { line =>
+      partAGoodPattern.findAllIn(line).nonEmpty && partABadPattern.findAllIn(line).isEmpty
+    }.toString
   }
 
   try {
