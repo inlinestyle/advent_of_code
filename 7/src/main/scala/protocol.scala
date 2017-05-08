@@ -6,8 +6,8 @@ object Protocol extends App {
   val partAGoodPattern =        ".*(\\w)(?!\\1)(\\w)\\2\\1.*".r
   val partABadPattern = "\\[[^\\]]*(\\w)(?!\\1)(\\w)\\2\\1[^\\]]*\\]".r
 
-  val partBPattern1 =                              ".*(\\w)(?!\\1)(\\w)\\1.*\\[[^\\]]*\\2\\1\\2[^\\]]*\\].*".r
-  val partBPattern2 = "\\[[^\\]]*\\2\\1\\2[^\\]]*\\].*(\\w)(?!\\1)(\\w)\\1.*".r
+  val partBPattern1 =           ".*(\\w)(?!\\1)(\\w)\\1.*\\[[^\\]]*\\2\\1\\2[^\\]]*\\].*".r
+  val partBPattern2 = ".*\\[[^\\]]*(\\w)(?!\\1)(\\w)\\1[^\\]]*\\].*\\2\\1\\2.*".r
   def solvePartB(lines: Seq[String]): String = {
     lines.count { line =>
       partBPattern1.findAllIn(line).nonEmpty || partBPattern2.findAllIn(line).nonEmpty
