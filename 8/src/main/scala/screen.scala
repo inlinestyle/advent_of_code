@@ -8,7 +8,7 @@ object Screen extends App {
   val numColumns = 50
   val screen: Screen = List.fill(numRows)(List.fill(numColumns)("."))
 
-  def printScreen(screen: Screen) = {
+  def printScreen(screen: Screen): Unit = {
     screen.foreach(row => println(row.mkString("")))
   }
 
