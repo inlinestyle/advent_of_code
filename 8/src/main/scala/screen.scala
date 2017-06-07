@@ -3,7 +3,7 @@ import scala.io.Source
 object Screen extends App {
   val filename = "input.txt"
 
-  type Screen = List[List[String]]
+  type Screen = Seq[Seq[String]]
   val numRows = 6
   val numColumns = 50
   val screen: Screen = List.fill(numRows)(List.fill(numColumns)("."))
