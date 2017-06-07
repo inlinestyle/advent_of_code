@@ -4,7 +4,7 @@ object Screen extends App {
   val filename = "input.txt"
 
   type Screen = List[List[String]]
-  val numRows = 3
+  val numRows = 6
   val numColumns = 50
   val screen: Screen = List.fill(numRows)(List.fill(numColumns)("."))
 
@@ -50,8 +50,8 @@ object Screen extends App {
     }
   }
 
-  def solvePartA(lines: Seq[String]): String = {
-    val resultScreen = lines.foldLeft(screen) {
+  def applyInstructions(lines: Seq[String]): Screen = {
+    lines.foldLeft(screen) {
       case (acc, rectPattern(columns, rows)) =>
         rect(acc, columns.toInt, rows.toInt)
       case (acc, rotateColumnPattern(x, by)) =>
@@ -59,8 +59,10 @@ object Screen extends App {
       case (acc, rotateRowPattern(y, by)) =>
         rotateRow(acc, y.toInt, by.toInt)
     }
-    printScreen(resultScreen)
-    resultScreen.flatten.foldLeft(0) {
+  }
+
+  def partA(screen: Screen): String = {
+    screen.flatten.foldLeft(0) {
       case (acc, pixel) =>
         if (pixel == "#") acc + 1 else acc
     }.toString
@@ -69,9 +71,11 @@ object Screen extends App {
   try {
     val lines = Source.fromFile(filename).getLines.toList
     println("Part A:")
-    println(solvePartA(lines))
-    // println("Part B:")
-    // println(solvePartB(lines))
+    val screen = applyInstructions(lines)
+    println("part A:")
+    println(partA(screen))
+    println("part B:")
+    printScreen(screen)
   } catch {
     case exception: Exception => println(exception)
   }
