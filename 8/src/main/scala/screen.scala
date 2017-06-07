@@ -8,6 +8,10 @@ object Screen extends App {
   val numColumns = 50
   val screen: Screen = List.fill(numRows)(List.fill(numColumns)("."))
 
+  def printScreen(screen: Screen) = {
+    screen.foreach(row => println(row.mkString("")))
+  }
+
   val rectPattern = "rect (\\d+)x(\\d+)".r
   val rotateColumnPattern = "rotate column x=(\\d+) by (\\d+)".r
   val rotateRowPattern = "rotate row y=(\\d+) by (\\d+)".r
@@ -15,9 +19,9 @@ object Screen extends App {
   def rect(screen: Screen, columns: Int, rows: Int): Screen = {
     screen.zipWithIndex.map {
       case (row, j) =>
-        if (j < columns) row.zipWithIndex.map {
+        if (j < rows) row.zipWithIndex.map {
           case (column, i) =>
-            if (i < rows) "#"
+            if (i < columns) "#"
             else column
         }
         else row
@@ -55,7 +59,7 @@ object Screen extends App {
       case (acc, rotateRowPattern(y, by)) =>
         rotateRow(acc, y.toInt, by.toInt)
     }
-    resultScreen.foreach(row => println(row.mkString("")))
+    printScreen(resultScreen)
     resultScreen.flatten.foldLeft(0) {
       case (acc, pixel) =>
         if (pixel == "#") acc + 1 else acc
