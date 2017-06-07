@@ -50,7 +50,7 @@ object Screen extends App {
     }
   }
 
-  def applyInstructions(lines: Seq[String]): Screen = {
+  def screenFromInstructions(lines: Seq[String]): Screen = {
     lines.foldLeft(screen) {
       case (acc, rectPattern(columns, rows)) =>
         rect(acc, columns.toInt, rows.toInt)
@@ -71,7 +71,7 @@ object Screen extends App {
   try {
     val lines = Source.fromFile(filename).getLines.toList
     println("Part A:")
-    val screen = applyInstructions(lines)
+    val screen = screenFromInstructions(lines)
     println("part A:")
     println(partA(screen))
     println("part B:")
